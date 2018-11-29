@@ -43,7 +43,7 @@ modern_scm_prompt() {
         then
                 return
         else
-                echo "[$(scm_char)][$(scm_prompt_info)]"
+                echo "[$(scm_char)][${orange}$(scm_prompt_info)${normal}]"
         fi
 }
 
@@ -73,11 +73,11 @@ my_ve(){
 
 prompt() {
 
-    my_ps_host="${green}\h${normal}";
+    my_ps_host="${yellow}\h${normal}";
     # yes, these are the the same for now ...
-    my_ps_host_root="${green}\h${normal}";
+    my_ps_host_root="${yellow}\h${normal}";
  
-    my_ps_user="${bold_green}\u${normal}"
+    my_ps_user="${bold_white}\u${normal}"
     my_ps_root="${bold_red}\u${normal}";
 
     if [ -n "$VIRTUAL_ENV" ]
@@ -87,16 +87,16 @@ prompt() {
 
     # nice prompt
     case "`id -u`" in
-        0) PS1="${TITLEBAR}┌$(my_ve)$(chroot)[$my_ps_root][$my_ps_host_root]$(modern_scm_prompt)$(__my_rvm_ruby_version)[${cyan}\w${normal}]$(is_vim_shell)
-└> "
+        0) PS1="${TITLEBAR}┌$(my_ve)$(chroot)[$my_ps_root][$my_ps_host_root]$(modern_scm_prompt)$(__my_rvm_ruby_version)[${green}\w${normal}]$(is_vim_shell)
+└>\$ "
         ;;
-        *) PS1="${TITLEBAR}┌$(my_ve)$(chroot)[$my_ps_user][$my_ps_host]$(modern_scm_prompt)$(__my_rvm_ruby_version)[${cyan}\w${normal}]$(is_vim_shell)
-└> "
+        *) PS1="${TITLEBAR}┌$(my_ve)$(chroot)[$my_ps_user][$my_ps_host]$(modern_scm_prompt)$(__my_rvm_ruby_version)[${green}\w${normal}]$(is_vim_shell)
+└>\$ "
         ;;
     esac
 }
 
-PS2="└> "
+PS2="└>\$ "
 
 
 

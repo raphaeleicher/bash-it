@@ -43,7 +43,7 @@ modern_scm_prompt() {
         then
                 return
         else
-                echo "[$(scm_char)][${orange}$(scm_prompt_info)${normal}]"
+                echo "[$(scm_char)][${cyan}$(scm_prompt_info)${normal}]"
         fi
 }
 

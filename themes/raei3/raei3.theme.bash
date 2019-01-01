@@ -1,6 +1,3 @@
-#source ~/.bash_it/themes/raei3/raei3.helper.bash
-
-
 SCM_THEME_PROMPT_PREFIX=""
 SCM_THEME_PROMPT_SUFFIX=""
 SCM_THEME_PROMPT_DIRTY=" ${bold_red}x"

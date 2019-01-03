@@ -219,9 +219,15 @@ function __promptline {
   local a_fg="${wrap}38;5;16${end_wrap}"
   local a_bg="${wrap}48;5;228${end_wrap}"
   local a_sep_fg="${wrap}38;5;228${end_wrap}"
-  local b_fg="${wrap}38;5;15${end_wrap}"
-  local b_bg="${wrap}48;5;61${end_wrap}"
-  local b_sep_fg="${wrap}38;5;61${end_wrap}"
+  if [[ $(id -u) -eq 0 ]]; then
+    local b_fg="${wrap}38;5;15${end_wrap}"
+    local b_bg="${wrap}48;5;198${end_wrap}"
+    local b_sep_fg="${wrap}38;5;198${end_wrap}"
+  else
+    local b_fg="${wrap}38;5;15${end_wrap}"
+    local b_bg="${wrap}48;5;61${end_wrap}"
+    local b_sep_fg="${wrap}38;5;61${end_wrap}"
+  fi 
   local c_fg="${wrap}38;5;15${end_wrap}"
   local c_bg="${wrap}48;5;236${end_wrap}"
   local c_sep_fg="${wrap}38;5;236${end_wrap}"

@@ -1,11 +1,45 @@
 SCM_THEME_PROMPT_PREFIX=""
 SCM_THEME_PROMPT_SUFFIX=""
-SCM_THEME_PROMPT_DIRTY=" ${bold_red}x"
-SCM_THEME_PROMPT_CLEAN=" ${bold_green}✓"
 SCM_GIT_CHAR="±  "
 SCM_SVN_CHAR="⑆  "
 SCM_HG_CHAR="☿  "
 SCM_NONE_CHAR=''
+
+__raei_scm_prompt() {
+  SCM_DIRTY=0
+  SCM_STATE=''
+
+  scm_clean_fg="${wrap}38;5;16${end_wrap}"
+  scm_clean_bg="${wrap}48;5;49${end_wrap}"
+  scm_clean_sep_fg="${wrap}38;5;49${end_wrap}"
+  scm_dirty_fg="${wrap}38;5;16${end_wrap}"
+  scm_dirty_bg="${wrap}48;5;211${end_wrap}"
+  scm_dirty_sep_fg="${wrap}38;5;211${end_wrap}"
+
+  scm_prompt_vars
+
+  if [[ ${SCM} == ${SCM_GIT} ]]; then
+    _git-hide-status && return
+    raei_scm_prompt=$(echo -e "${SCM_THEME_CHAR_PREFIX}${SCM_CHAR}${SCM_THEME_CHAR_SUFFIX}${SCM_PREFIX}${SCM_BRANCH}${SCM_STATE}${SCM_SUFFIX}")
+  elif [[ ${SCM} == ${SCM_HG} ]]; then
+    raei_scm_prompt=$(echo -e "${SCM_THEME_CHAR_PREFIX}${SCM_CHAR}${SCM_THEME_CHAR_SUFFIX}${SCM_PREFIX}${SCM_BRANCH}:${SCM_CHANGE#*:}${SCM_STATE}${SCM_SUFFIX}")
+  elif [[ ${SCM} == ${SCM_P4} ]]; then
+    raei_scm_prompt=$(echo -e "${SCM_THEME_CHAR_PREFIX}${SCM_CHAR}${SCM_THEME_CHAR_SUFFIX}${SCM_PREFIX}${SCM_BRANCH}:${SCM_CHANGE}${SCM_STATE}${SCM_SUFFIX}")
+  elif [[ ${SCM} == ${SCM_SVN} ]]; then
+    raei_scm_prompt=$(echo -e "${SCM_THEME_CHAR_PREFIX}${SCM_CHAR}${SCM_THEME_CHAR_SUFFIX}${SCM_PREFIX}${SCM_BRANCH}${SCM_STATE}${SCM_SUFFIX}")
+  fi
+
+  if [[ $SCM_DIRTY -gt 0 ]]; then
+    slice_prefix="${scm_dirty_bg}${sep}${scm_dirty_fg}${scm_dirty_bg}${space}" slice_suffix="$space${scm_dirty_sep_fg}" slice_joiner="${scm_dirty_fg}${scm_dirty_bg}${alt_sep}" slice_empty_prefix="${scm_dirty_fg}${scm_dirty_bg}${space}"
+  else
+    slice_prefix="${scm_clean_bg}${sep}${scm_clean_fg}${scm_clean_bg}${space}" slice_suffix="$space${scm_clean_sep_fg}" slice_joiner="${scm_clean_fg}${scm_clean_bg}${alt_sep}" slice_empty_prefix="${scm_clean_fg}${scm_clean_bg}${space}"
+  fi
+  [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
+
+  __promptline_wrapper "$raei_scm_prompt" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+
+  return
+}
 
 is_vim_shell() {
         if [ ! -z "$VIMRUNTIME" ]
@@ -78,11 +112,14 @@ function __promptline_ps1 {
   # section "c" slices
   __promptline_wrapper "\w" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
 
-  # section "y" header
-  slice_prefix="${y_bg}${sep}${y_fg}${y_bg}${space}" slice_suffix="$space${y_sep_fg}" slice_joiner="${y_fg}${y_bg}${alt_sep}" slice_empty_prefix="${y_fg}${y_bg}${space}"
-  [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
-  # section "y" slices
-  __promptline_wrapper "$(scm_prompt_char_info)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+#  # section "y" header
+#  slice_prefix="${y_bg}${sep}${y_fg}${y_bg}${space}" slice_suffix="$space${y_sep_fg}" slice_joiner="${y_fg}${y_bg}${alt_sep}" slice_empty_prefix="${y_fg}${y_bg}${space}"
+#  [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
+#  # section "y" slices
+#  __promptline_wrapper "$(scm_prompt_char_info)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+
+  # my scm prompt
+  __raei_scm_prompt
 
   # section "warn" header
   slice_prefix="${warn_bg}${sep}${warn_fg}${warn_bg}${space}" slice_suffix="$space${warn_sep_fg}" slice_joiner="${warn_fg}${warn_bg}${alt_sep}${space}" slice_empty_prefix="${warn_fg}${warn_bg}${space}"
@@ -197,6 +234,7 @@ function __promptline_right_prompt {
   # close sections
   printf "%s" "$reset"
 }
+
 function __promptline {
   local last_exit_code="${PROMPTLINE_LAST_EXIT_CODE:-$?}"
 

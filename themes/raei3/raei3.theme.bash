@@ -11,12 +11,12 @@ __raei_scm_prompt() {
   SCM_DIRTY=0
   SCM_STATE=''
 
-  scm_clean_fg="${wrap}38;5;16${end_wrap}"
-  scm_clean_bg="${wrap}48;5;49${end_wrap}"
-  scm_clean_sep_fg="${wrap}38;5;49${end_wrap}"
+  scm_clean_fg="${wrap}38;5;240${end_wrap}"
+  scm_clean_bg="${wrap}48;5;82${end_wrap}"
+  scm_clean_sep_fg="${wrap}38;5;82${end_wrap}"
   scm_dirty_fg="${wrap}38;5;16${end_wrap}"
-  scm_dirty_bg="${wrap}48;5;211${end_wrap}"
-  scm_dirty_sep_fg="${wrap}38;5;211${end_wrap}"
+  scm_dirty_bg="${wrap}48;5;199${end_wrap}"
+  scm_dirty_sep_fg="${wrap}38;5;199${end_wrap}"
 
   scm_prompt_vars
 
@@ -251,27 +251,27 @@ function __promptline {
   local alt_rsep=""
   local reset="${wrap}0${end_wrap}"
   local reset_bg="${wrap}49${end_wrap}"
-  local a_fg="${wrap}38;5;16${end_wrap}"
-  local a_bg="${wrap}48;5;228${end_wrap}"
-  local a_sep_fg="${wrap}38;5;228${end_wrap}"
+  local a_fg="${wrap}38;5;220${end_wrap}"
+  local a_bg="${wrap}48;5;166${end_wrap}"
+  local a_sep_fg="${wrap}38;5;166${end_wrap}"
   if [[ $(id -u) -eq 0 ]]; then
-    local b_fg="${wrap}38;5;15${end_wrap}"
-    local b_bg="${wrap}48;5;198${end_wrap}"
-    local b_sep_fg="${wrap}38;5;198${end_wrap}"
+    local b_fg="${wrap}38;5;45${end_wrap}"
+    local b_bg="${wrap}48;5;231${end_wrap}"
+    local b_sep_fg="${wrap}38;5;231${end_wrap}"
   else
-    local b_fg="${wrap}38;5;15${end_wrap}"
-    local b_bg="${wrap}48;5;61${end_wrap}"
-    local b_sep_fg="${wrap}38;5;61${end_wrap}"
-  fi 
-  local c_fg="${wrap}38;5;15${end_wrap}"
-  local c_bg="${wrap}48;5;236${end_wrap}"
-  local c_sep_fg="${wrap}38;5;236${end_wrap}"
-  local warn_fg="${wrap}38;5;16${end_wrap}"
-  local warn_bg="${wrap}48;5;215${end_wrap}"
-  local warn_sep_fg="${wrap}38;5;215${end_wrap}"
-  local y_fg="${wrap}38;5;16${end_wrap}"
-  local y_bg="${wrap}48;5;141${end_wrap}"
-  local y_sep_fg="${wrap}38;5;141${end_wrap}"
+    local b_fg="${wrap}38;5;231${end_wrap}"
+    local b_bg="${wrap}48;5;45${end_wrap}"
+    local b_sep_fg="${wrap}38;5;45${end_wrap}"
+  fi
+  local c_fg="${wrap}38;5;250${end_wrap}"
+  local c_bg="${wrap}48;5;240${end_wrap}"
+  local c_sep_fg="${wrap}38;5;240${end_wrap}"
+  local warn_fg="${wrap}38;5;231${end_wrap}"
+  local warn_bg="${wrap}48;5;52${end_wrap}"
+  local warn_sep_fg="${wrap}38;5;52${end_wrap}"
+  local y_fg="${wrap}38;5;250${end_wrap}"
+  local y_bg="${wrap}48;5;236${end_wrap}"
+  local y_sep_fg="${wrap}38;5;236${end_wrap}"
   if [[ -n ${ZSH_VERSION-} ]]; then
     PROMPT="$(__promptline_left_prompt)"
     RPROMPT="$(__promptline_right_prompt)"
